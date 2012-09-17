@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from sys import argv
-from screenshooter import config
+from screenshooter import config, utils
 from screenshooter import custom_gearman as gearman
 
 
@@ -29,7 +29,10 @@ def main():
     responses = []
     for url in urls:
         response = client.submit_job('screenshot', {'url': url})
-        print response
+        if response.state == 'COMPLETE':
+            # TODO: Store in database.
+            data = {'url': url, 'filename': utils.save_path(response.job.unique)}
+            print data
         responses.append(response)
     return 0
 
