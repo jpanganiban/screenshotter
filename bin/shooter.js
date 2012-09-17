@@ -1,4 +1,4 @@
-#!/usr/local/bin phantomjs
+#!/usr/local/bin/phantomjs
 
 var page = new WebPage();
 var url = phantom.args[0];
