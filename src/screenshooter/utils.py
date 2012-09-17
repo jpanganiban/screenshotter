@@ -9,5 +9,6 @@ def save_path(filename, filepath='/tmp/'):
     return savepath
 
 
-def take_screenshot(url, filename, savepath):
-    return subprocess.call([config.PHANTOM_BIN_PATH, 'shooter.js', url, savepath])
+def take_screenshot(url, savepath):
+    data = subprocess.call([config.PHANTOM_BIN_PATH, 'shooter.js', url, savepath])
+    return data
