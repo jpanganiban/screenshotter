@@ -3,7 +3,7 @@ import subprocess
 import os
 
 
-def save_path(filename, filepath='/tmp/'):
+def save_path(filename, filepath=config.SAVE_PATH):
     filename = "%s.jpg" % filename
     savepath = os.path.join(filepath, filename)
     return savepath
