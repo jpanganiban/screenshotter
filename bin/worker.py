@@ -9,6 +9,8 @@ worker = gearman.GearmanWorker(config.GEARMAN_HOSTS)
 
 def take_screenshot(gm_worker, gm_job):
     data = utils.take_screenshot(gm_job.data['url'], gm_job.unique)
+    print data
+    gm_worker.send_job_data(gearman_job, data)
     return data
 
 
