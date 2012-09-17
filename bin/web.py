@@ -1,7 +1,15 @@
+#!/usr/bin/env python
+
 from flask import Flask, request, jsonify
+from screenshooter import config
+from pymongo import Connection
 
 
 app = Flask(__name__)
+# Mongodb stuff
+conn = Connection()
+db = conn[config.MONGO_DB]
+db_collection = db[config.MONGO_COLLECTION]
 
 
 @app.route('/screenshots', methods=['GET', 'POST'])
@@ -53,4 +61,4 @@ def screenshots():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
