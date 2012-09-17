@@ -1,13 +1,14 @@
-import config
-import custom_gearman as gearman
+#!/usr/bin/env python
+
+from screenshooter import config, utils
+from screenshooter import custom_gearman as gearman
 
 
 worker = gearman.GearmanWorker(config.GEARMAN_HOSTS)
 
 
 def take_screenshot(gm_worker, gm_job):
-    print gm_worker
-    print gm_job.data
+    utils.take_screenshot(gm_job.data['url'], gm_job.unique)
     return gm_job.data
 
 
