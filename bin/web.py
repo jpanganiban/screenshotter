@@ -52,8 +52,8 @@ def screenshots():
     """
 
     if request.method == 'GET':
-        # TODO: Should return screenshots
-        return jsonify({'result': []})
+        screenshots = db_collection.find()
+        return jsonify({'result': list(screenshots)})
 
     if request.method == 'POST':
         data = request.json
@@ -61,4 +61,4 @@ def screenshots():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=8080)
