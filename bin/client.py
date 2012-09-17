@@ -3,9 +3,14 @@
 from sys import argv
 from screenshooter import config, utils
 from screenshooter import custom_gearman as gearman
+from pymongo import Connection
 
 
 client = gearman.GearmanClient(config.GEARMAN_HOSTS)
+# Mongodb stuff
+conn = Connection()
+db = conn[config.MONGO_DB]
+db_collection = db[config.MONGO_COLLECTION]
 
 
 def show_help():
@@ -30,11 +35,12 @@ def main():
     for url in urls:
         response = client.submit_job('screenshot', {'url': url})
         if response.state == 'COMPLETE':
-            # TODO: Store in database.
             data = {'url': url, 'filename': utils.save_path(response.job.unique)}
-            print data
-        responses.append(response)
-    return 0
+            responses.append(response)
+    # TODO: Store in database.
+    if config.USE_MONGO:
+        db_collection.insert(responses)
+    return {'result': responses}
 
 
 if __name__ == '__main__':
