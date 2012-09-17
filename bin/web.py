@@ -10,6 +10,8 @@ app = Flask(__name__)
 conn = Connection()
 db = conn[config.MONGO_DB]
 db_collection = db[config.MONGO_COLLECTION]
+# GEARMAN
+client = gearman.GearmanClient(config.GEARMAN_HOSTS)
 
 
 @app.route('/screenshots', methods=['GET', 'POST'])
@@ -57,7 +59,13 @@ def screenshots():
 
     if request.method == 'POST':
         data = request.json
-        # TODO: Send data to worker
+        if not data.get('url'):
+            return abort(400)
+        response = client.submit_job('screenshot', {'url': data.get('url')})
+        if response.status == 'FAILED':
+            return abort(400)
+        # TODO: We need to get the response data.
+        return jsonify({'url': '', 'filepath': ''})
 
 
 if __name__ == '__main__':
