@@ -13,7 +13,7 @@ libevent
 
     cd screenshooter
 
-    python setup.py develop
+    python setup.py develop/install
 
 Optional
 
